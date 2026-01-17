@@ -30,11 +30,19 @@ def get_calendar_service():
     """
     Initialize and return Google Calendar service.
     
-    Supports three authentication methods (in order of priority):
-    1. Service Account File: Set GOOGLE_SERVICE_ACCOUNT_FILE env var with path to JSON file
-    2. Service Account JSON: Set GOOGLE_SERVICE_ACCOUNT_JSON env var with JSON string
-    3. OAuth: Use credentials.json file and token.json for user auth
+    Supports four authentication methods (in order of priority):
+    1. API Key: Set GOOGLE_API_KEY env var (recommended, no key management needed)
+    2. Service Account File: Set GOOGLE_SERVICE_ACCOUNT_FILE env var with path to JSON file
+    3. Service Account JSON: Set GOOGLE_SERVICE_ACCOUNT_JSON env var with JSON string
+    4. OAuth: Use credentials.json file and token.json for user auth
     """
+    
+    # Try API Key first (simplest, no service account key needed)
+    api_key = os.getenv("GOOGLE_API_KEY")
+    if api_key:
+        print("✓ Authenticated with Google API Key")
+        return build('calendar', 'v3', static_discovery=False, developerKey=api_key)
+    
     creds = None
     
     service_account_file = os.getenv("GOOGLE_SERVICE_ACCOUNT_FILE")
@@ -95,7 +103,8 @@ def get_calendar_service():
     if not creds:
         raise ValueError(
             "No valid Google Calendar credentials found. "
-            "Set GOOGLE_SERVICE_ACCOUNT_FILE or GOOGLE_SERVICE_ACCOUNT_JSON env var, "
+            "Set GOOGLE_API_KEY env var (recommended), "
+            "or GOOGLE_SERVICE_ACCOUNT_FILE/GOOGLE_SERVICE_ACCOUNT_JSON env var, "
             "or provide credentials.json file."
         )
     

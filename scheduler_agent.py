@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from livekit import agents
 from livekit.agents import Agent, AgentSession, RunContext
 from livekit.agents.llm import function_tool
-from livekit.plugins import google, silero, cartesia, anam, openai
+from livekit.plugins import google, silero, cartesia, openai
 from livekit.plugins.turn_detector.english import EnglishModel
 from datetime import datetime, timedelta
 import os
@@ -484,12 +484,12 @@ async def entrypoint(ctx: agents.JobContext):
         # Add turn detector for smarter end-of-turn detection
         
     )
-    avatar = anam.AvatarSession(
-      persona_config=anam.PersonaConfig(
-         name="Mia",
-         avatarId="edf6fdcb-acab-44b8-b974-ded72665ee26",
-      ),
-    )
+    # avatar = anam.AvatarSession(
+    #   persona_config=anam.PersonaConfig(
+    #      name="Mia",
+    #      avatarId="edf6fdcb-acab-44b8-b974-ded72665ee26",
+    #   ),
+    # )
     # Comment down below line to disable avatar
     # await avatar.start(session, room=ctx.room)
 

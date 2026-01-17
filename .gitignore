@@ -79,3 +79,7 @@ pylint.log
 
 # Miscellaneous
 *.bak
+
+# Sensitive files
+credentials.json
+token.json
